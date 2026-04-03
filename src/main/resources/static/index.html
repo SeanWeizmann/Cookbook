@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookbook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="app-locked">
+<div id="start-screen" class="start-screen" role="button" tabindex="0" aria-label="Enter cookbook">
+    <div class="start-inner">
+        <p class="start-eyebrow">הסודות של סבתא לאה</p>
+        <h1 class="start-title">ספר המתכונים של אמא</h1>
+        <p class="start-hint">Press any key or click to enter</p>
+    </div>
+</div>
+
+<main class="layout" id="app-layout">
+    <aside class="panel menu-panel">
+        <p class="eyebrow">ספר המתכונים של סבתא לאה</p>
+        <h1>Cookbook</h1>
+
+        <nav class="menu-actions">
+            <button id="open-category-form" type="button" class="menu-btn">Add Category</button>
+            <button id="open-recipe-form" type="button" class="menu-btn">Add Recipe</button>
+            <button id="open-admin-login" type="button" class="menu-btn">Admin Login</button>
+            <button id="admin-logout" type="button" class="menu-btn" hidden>Admin Logout</button>
+        </nav>
+
+        <div class="menu-section">
+            <h2>Categories</h2>
+            <ul id="categories" class="category-list"></ul>
+        </div>
+    </aside>
+
+    <section class="panel content-panel">
+        <section id="editor-section" class="editor-stack" hidden>
+            <form id="admin-login-form" class="stack card-block form-shell" hidden>
+                <div class="form-head">
+                    <div class="form-head-main">
+                        <p class="form-eyebrow">Admin</p>
+                        <h2 class="form-title">Admin Login</h2>
+                        <p class="form-subtitle">Sign in to edit and manage your cookbook.</p>
+                    </div>
+                    <button type="button" class="form-close" data-close-editor aria-label="Close form">×</button>
+                </div>
+                <div class="form-grid">
+                    <label class="field">
+                        <span>Username</span>
+                        <input id="admin-username" type="text" placeholder="Username" maxlength="120" required />
+                    </label>
+                    <label class="field">
+                        <span>Password</span>
+                        <input id="admin-password" type="password" placeholder="Password" maxlength="120" required />
+                    </label>
+                </div>
+                <label class="form-check">
+                    <input id="toggle-password" type="checkbox" />
+                    <span>Show password</span>
+                </label>
+                <div class="form-actions">
+                    <button type="submit">Sign In</button>
+                </div>
+            </form>
+
+            <form id="category-form" class="stack card-block form-shell" hidden>
+                <div class="form-head">
+                    <div class="form-head-main">
+                        <p class="form-eyebrow">Create</p>
+                        <h2 id="category-form-title" class="form-title">Add Category</h2>
+                        <p class="form-subtitle">Keep it short and clear. You can rename later.</p>
+                    </div>
+                    <button type="button" class="form-close" data-close-editor aria-label="Close form">×</button>
+                </div>
+                <div class="form-grid">
+                    <label class="field span-2">
+                        <span>Category name</span>
+                        <input id="category-name" type="text" placeholder="Category name" maxlength="120" required />
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button id="category-form-submit" type="submit">Save Category</button>
+                </div>
+            </form>
+
+            <form id="recipe-form" class="stack card-block form-shell" hidden>
+                <div class="form-head">
+                    <div class="form-head-main">
+                        <p class="form-eyebrow">Create</p>
+                        <h2 id="recipe-form-title" class="form-title">Add Recipe</h2>
+                        <p class="form-subtitle">Capture the essentials so it is easy to repeat.</p>
+                    </div>
+                    <button type="button" class="form-close" data-close-editor aria-label="Close form">×</button>
+                </div>
+                <div class="form-grid">
+                    <label class="field">
+                        <span>Recipe title</span>
+                        <input id="recipe-title" type="text" placeholder="Recipe title" maxlength="180" required />
+                    </label>
+                    <label class="field">
+                        <span>Category</span>
+                        <select id="recipe-category" required></select>
+                    </label>
+                    <label class="field span-2">
+                        <span>Ingredients</span>
+                        <textarea id="recipe-ingredients" placeholder="Ingredients" required></textarea>
+                    </label>
+                    <label class="field span-2">
+                        <span>Instructions</span>
+                        <textarea id="recipe-instructions" placeholder="Instructions" required></textarea>
+                    </label>
+                    <label class="field span-2">
+                        <span>Image URL (optional)</span>
+                        <input id="recipe-image" type="url" placeholder="Image URL (optional)" maxlength="1200" />
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button id="recipe-form-submit" type="submit">Save Recipe</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="workspace">
+            <div class="workspace-head">
+                <h2 id="workspace-title">Select a category</h2>
+<!--                <p id="workspace-subtitle" class="workspace-subtitle">Choose a category from the left menu.</p>-->
+            </div>
+
+            <section id="empty-state" class="empty-state" hidden>
+                <div class="empty-card">
+                    <div class="empty-icon" aria-hidden="true"></div>
+                    <p class="empty-eyebrow">Cookbook</p>
+                    <h2 class="empty-title">Pick a category to begin</h2>
+                    <p class="empty-subtitle">Your recipes will appear here once you select one from the menu.</p>
+                    <div class="empty-hints">
+                        <div class="empty-hint">
+                            <span>Step 1</span>
+                            Choose a category on the left
+                        </div>
+                        <div class="empty-hint">
+                            <span>Step 2</span>
+                            Add or edit recipes anytime
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="workspace-body">
+                <div class="recipe-rail">
+                    <div class="recipe-rail-head">
+                        <p class="recipe-rail-title">Recipes</p>
+                        <p class="recipe-rail-subtitle">Select one to see details</p>
+                    </div>
+                    <div id="recipes" class="recipe-name-list"></div>
+                </div>
+
+                <article id="recipe-view" class="recipe-card" hidden></article>
+            </div>
+        </section>
+
+<!--        <p id="status" class="status"></p>-->
+    </section>
+</main>
+<script src="/app.js"></script>
+</body>
+</html>
