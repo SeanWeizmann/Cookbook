@@ -24,6 +24,7 @@ const startScreenEl = document.getElementById("start-screen");
 const togglePasswordEl = document.getElementById("toggle-password");
 const adminPasswordInput = document.getElementById("admin-password");
 const closeEditorButtons = document.querySelectorAll("[data-close-editor]");
+const bottomCategoryButtons = document.querySelectorAll("[data-bottom-category]");
 
 let selectedCategoryId = null;
 let selectedRecipeId = null;
@@ -444,6 +445,25 @@ async function loadRecipesForSelectedCategory() {
     }
     transitionOutIn(recipesEl, renderRecipeNames);
 }
+
+bottomCategoryButtons.forEach(button => {
+    button.addEventListener("click", async () => {
+        const categoryName = button.dataset.bottomCategory;
+        const category = currentCategories.find(item => item.name.toLowerCase() === categoryName.toLowerCase());
+
+        if (!category) {
+            setStatus(`The ${categoryName} category is not available yet.`);
+            return;
+        }
+
+        showEditor(null);
+        selectedCategoryId = category.id;
+        selectedRecipeId = null;
+        renderCategories();
+        await loadRecipesForSelectedCategory();
+        document.querySelector(".workspace-head").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+});
 
 adminLoginForm.addEventListener("submit", async event => {
     event.preventDefault();
